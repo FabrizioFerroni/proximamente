@@ -1,0 +1,109 @@
+<div class="site-wrapper">
+  <div class="site-wrapper-inner">
+    <div class="cover-container">
+      <div class="masthead clearfix">
+        <div class="inner">
+          <a [routerLink]="['/']"><h3 class="masthead-brand">Fabrizio DEV</h3></a>
+          <nav class="nav nav-masthead">
+            <a class="nav-link nav-social" href="https://facebook.com/Fabrizio.Ferroni.96" data-toggle="tooltip" data-placement="bottom" target="_blank"
+              title="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a class="nav-link nav-social" href="https://instagram.com/fabriiferroni" data-toggle="tooltip" data-placement="bottom" target="_blank"
+              title="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a class="nav-link nav-social" href="https://twitter.com/FabrizioFerroni" data-toggle="tooltip" data-placement="bottom" target="_blank"
+              title="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a class="nav-link nav-social" href="https://wa.me/543536579619" data-toggle="tooltip" data-placement="bottom" target="_blank"
+              title="Whatsapp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+          </nav>
+        </div>
+      </div>
+      <div class="inner cover">
+        <h1 class="cover-heading">La aventura recién comienza</h1>
+        <p class="lead cover-copy">Agárrate fuerte mientras reunimos a nuestros robots de trabajo y producimos el más
+          asombroso
+          producto que alguna vez hayas visto.</p>
+        <p class="lead"><button type="button" class="btn btn-lg btn-default btn-notify outnone" data-toggle="modal"
+            data-target="#subscribeModal">Notificarme</button></p>
+      </div>
+      <div class="mastfoot">
+        <div class="inner pb-0">
+          <p>&copy; Fabrizio DEV. Diseñado por: <a class="text-decoration-none portfolio" href="https://fabriziodev.ar/"
+              target="_blank">Fabrizio DEV</a>.</p>
+        </div>
+      </div>
+      <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="subscribeModalLabel">Reciba notificaciones sobre el lanzamiento:</h5>
+              <button type="button" class="close outnone" data-dismiss="modal" aria-label="Close"(click)="reset()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form (ngSubmit)="onSubmit(empleadoForm)" #empleadoForm="ngForm">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="nombre" class="form-control-label">Ingrese su nombre para recibir una notificación
+                    cuando lancemos</label>
+                  <input type="text" name="nombre" id="nombre" [(ngModel)]="nombre"  required class="form-control outnone mb-4"
+                     placeholder="Daniel Perez">
+
+
+                  <label for="recipient-name" class="form-control-label">Ingrese su correo electrónico para recibir una
+                    notificación cuando lancemos</label>
+                  <input type="email" name="email" [(ngModel)]="email" class="form-control outnone"
+                    id="recipient-name" placeholder="your-name@example.com" required >
+
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button *ngIf="!btn_load" type="submit" class="btn btn-default outnone" >Suscribirse</button>
+                <button *ngIf="btn_load" type="button" class="btn btn-default outnone">
+                  <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+                  Subscribiendose...
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="modal fade" id="dessubscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="subscribeModalLabel">Atención!!!</h5>
+            <!-- <h5 class="modal-title" id="subscribeModalLabel">¿Estas seguro de que te quieres dar de baja?</h5> -->
+            <button type="button" class="close outnone" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="darme-de-baja"  class="d-flex justify-content-center form-control-label">¿Seguro que desea dejar de recibir nuestros avances?</label>
+              <div class="text-center mt-4">
+                  <input type="submit" *ngIf="!btn_load" name="darme-de-baja" (click)="darse_de_baja()" id="darme-de-baja" class="btn btn-danger outnone mb-4"
+                  value="Sí, darme de baja!">
+
+                  <button *ngIf="btn_load" type="button" class="btn btn-danger outnone mb-4">
+                    <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+                    Dandote de baja...
+                  </button>
+
+
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+</div>

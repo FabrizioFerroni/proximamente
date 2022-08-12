@@ -1,0 +1,34 @@
+/* .form-control:-webkit-autofill, */
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+/* .form-control:-webkit-autofill, */
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+/* .form-control:-webkit-autofill, */
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus {
+  border: 1px solid #fff;
+  -webkit-text-fill-color: #fff;
+  /* -webkit-box-shadow: 0 0 0px 1000px #000 inset; */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+
+.form-control{
+  border-color: #49506a;
+}
+
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill{
+  border: 1px solid #49506a;
+  -webkit-text-fill-color: #fff;
+  /* -webkit-box-shadow: 0 0 0px 1000px #000 inset; */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.btn-default:hover{
+  color: white;
+  background-color: #1D6F42;
+  border-color: #1D6F42;
+}
