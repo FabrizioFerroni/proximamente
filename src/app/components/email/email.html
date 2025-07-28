@@ -1,0 +1,112 @@
+<div
+  class="rounded-lg text-card-[hsl(var(--foreground))] max-w-md mx-auto border-2 shadow-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 space-y-4d"
+>
+  <div
+    class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-lg"
+  >
+    @if(isSuccess){
+    <div
+      class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 mb-2 flex items-center gap-2"
+    >
+      <lucide-angular [img]="Check" class="h-6 w-6 text-green-600" />
+      <p class="text-sm text-green-400">
+        {{ message }}
+      </p>
+    </div>
+    } @if(isError){
+    <div
+      class="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 mb-2 flex items-center gap-2"
+    >
+      <lucide-angular [img]="X" class="h-6 w-6 text-red-600" />
+      <p class="text-sm text-red-400">
+        {{ message }}
+      </p>
+    </div>
+    }
+    <ng-container *ngIf="!isSubmitted; else successTemplate">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div class="space-y-2">
+          <label for="name" class="text-sm font-[550] text-left block">
+            Recibe una notificación cuando esté listo
+          </label>
+
+          <!-- Nombre -->
+          <div>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              placeholder="Tu nombre"
+              class="w-full flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+              [class.border-red-500]="name?.invalid && name?.touched"
+            />
+            <p
+              *ngIf="name?.invalid && name?.touched"
+              class="text-red-500 text-xs mt-1 text-left"
+            >
+              El nombre es obligatorio
+            </p>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="tu@email.com"
+              class="w-full flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+              [class.border-red-500]="email?.invalid && email?.touched"
+            />
+            <p
+              *ngIf="email?.invalid && email?.touched"
+              class="text-red-500 text-xs mt-1 text-left"
+            >
+              Email inválido o requerido
+            </p>
+          </div>
+
+          <!-- Botón -->
+          <app-button
+            type="submit"
+            [disabled]="isLoading || form.invalid"
+            className="w-full px-6 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-red-500 disabled:hover:to-pink-600 cursor-pointer transition-all duration-300"
+          >
+            @if(isLoading){
+            <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+            <span
+              >Guardando Notificacion
+              <span class="animate-pulse">...</span></span
+            >
+            } @else {
+            <lucide-icon [img]="Send" class="w-4 h-4 mr-2" />
+            <span>Notificarme</span>
+            }
+          </app-button>
+        </div>
+      </form>
+    </ng-container>
+
+    <!-- Mensaje de éxito -->
+    <ng-template #successTemplate>
+      <div class="text-center space-y-3 py-2">
+        <div
+          class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto"
+        >
+          <lucide-angular
+            [img]="Check"
+            class="h-6 w-6 text-green-600 dark:text-green-400"
+          />
+        </div>
+        <div>
+          <h3 class="font-semibold text-green-700 dark:text-green-400">
+            ¡Perfecto, {{ nameN || "amigo" }}!
+          </h3>
+          <p class="text-sm text-[hsl(var(--muted-foreground))] pt-2">
+            Te notificaré cuando el portfolio esté listo
+          </p>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

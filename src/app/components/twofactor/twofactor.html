@@ -1,0 +1,101 @@
+<app-header></app-header>
+<div
+  class="flex items-center justify-center px-4"
+  style="height: calc(100vh - 72px)"
+>
+  <div
+    class="rounded-lg border bg-card text-[hsl(var(--card-foreground))] shadow-sm w-full max-w-md border-2 shadow-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50"
+  >
+    <div class="text-center flex flex-col space-y-1.5 p-6">
+      <div
+        class="text-2xl font-[700] bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent leading-none tracking-tight"
+      >
+        Panel de Administración
+      </div>
+      <p class="text-[hsl(var(--muted-foreground))]">
+        Ingresa el código de verificación
+      </p>
+    </div>
+    <div
+      class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-b-lg"
+    >
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div class="flex justify-center mb-4">
+          <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+            <lucide-icon
+              [img]="Shield"
+              class="h-6 w-6 text-blue-600 dark:text-blue-400"
+            />
+          </div>
+        </div>
+        <!-- --- -->
+        <div class="space-y-4">
+          <label
+            for="twoFactorCode"
+            class="text-sm font-medium text-center block"
+          >
+            Código de verificación
+          </label>
+          <div formArrayName="tokenDigits" class="flex justify-center gap-2">
+            <ng-container
+              *ngFor="let ctrl of tokenDigits.controls; let i = index"
+            >
+              <input
+                [formControlName]="i"
+                id="tokenDigits-{{ i }}"
+                #inputEl
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]{1}"
+                [placeholder]="i + 1"
+                maxlength="1"
+                required
+                [disabled]="isDisabled(i)"
+                [class.opacity-50]="isDisabled(i)"
+                (input)="onInput(i, $event)"
+                (keydown)="onKeyDown(i, $event)"
+                (paste)="i === 0 ? onPaste($event) : null"
+                class="w-10 h-12 text-center text-lg font-bold flex rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                [class.border-red-500]="
+                  tokenDigits.invalid && tokenDigits.touched
+                "
+                [attr.aria-label]="
+                  'Dígito ' + (i + 1) + ' del código de verificación'
+                "
+              />
+            </ng-container>
+          </div>
+          <p
+            *ngIf="tokenDigits.invalid && tokenDigits.touched"
+            class="text-red-500 text-xs mt-1 text-center"
+          >
+            El token es obligatorio
+          </p>
+        </div>
+        <app-button
+          type="submit"
+          [disabled]="isLoading || form.invalid"
+          className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium cursor-pointer transition-all duration-300"
+        >
+          @if(isLoading){
+          <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+          <span>Validando código...</span>
+          } @else {
+          <lucide-icon [img]="CheckCheck" class="w-4 h-4 mr-2" />
+          <span>Validar código</span>
+          }
+        </app-button>
+
+        <app-enlace
+          variant="ghost"
+          size="icon"
+          [href]="'iniciarsesion'"
+          target="_self"
+          className="rounded-md p-2 w-full cursor-pointer mt-5 transition-all duration-300"
+        >
+          <span>Volver al inicio de sesión</span>
+        </app-enlace>
+      </form>
+    </div>
+  </div>
+</div>

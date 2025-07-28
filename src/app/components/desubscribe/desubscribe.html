@@ -1,0 +1,335 @@
+@if(isLoading){
+<div
+  class="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-red-900/20 dark:to-pink-900/20 flex flex-col items-center justify-center px-4"
+>
+  <div class="text-center space-y-8 max-w-md mx-auto">
+    <div class="flex justify-center">
+      <div class="p-6 bg-blue-100 dark:bg-blue-900/30 rounded-full shadow-lg">
+        <lucide-angular
+          [img]="Mail"
+          class="h-12 w-12 text-blue-600 dark:text-blue-400"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h2
+        class="text-3xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent"
+      >
+        Procesando Desuscripción
+      </h2>
+      <p class="text-lg text-[hsl(var(--muted-foreground))]">
+        Estamos procesando tu solicitud de desuscripción...
+      </p>
+    </div>
+
+    <div class="w-full max-w-sm mx-auto">
+      <div
+        class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner mb-12"
+      >
+        <div
+          class="bg-gradient-to-r from-red-500 to-pink-600 h-3 rounded-full transition-all duration-1000 ease-out"
+          [ngStyle]="{ width: progress + '%' }"
+        ></div>
+        <p class="text-sm text-[hsl(var(--muted-foreground))] text-center mt-2">
+          {{ progress }}%
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="text-sm text-[hsl(var(--muted-foreground))] space-y-2 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 border border-gray-200/50 dark:border-gray-700/50"
+      *ngIf="progress >= 0"
+    >
+      <div
+        class="flex items-center justify-center gap-2 text-[hsl(var(--muted-foreground))]"
+        *ngIf="progress >= 0"
+      >
+        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+        Verificando token de desuscripción...
+      </div>
+      <div
+        class="flex items-center justify-center gap-2 text-[hsl(var(--muted-foreground))]"
+        *ngIf="progress >= 40"
+      >
+        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+        Actualizando preferencias de email...
+      </div>
+      <div
+        class="flex items-center justify-center gap-2 text-[hsl(var(--muted-foreground))]"
+        *ngIf="progress >= 70"
+      >
+        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        Finalizando proceso <span class="animate-pulse">...</span>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<div
+  class="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-red-900/20 dark:to-pink-900/20 flex flex-col"
+>
+  <div class="flex-1 flex items-center justify-center px-4 py-12">
+    <div class="max-w-2xl mx-auto text-center space-y-8">
+      @if(isSuccess){
+      <div class="flex flex-col gap-4">
+        <div class="flex justify-center">
+          <!-- icono -->
+          <div
+            class="p-6 bg-green-100 dark:bg-green-900/30 rounded-full shadow-lg"
+          >
+            <lucide-angular
+              [img]="Check"
+              class="h-16 w-16 text-green-600 dark:text-green-400"
+            />
+          </div>
+        </div>
+
+        <!-- contenido -->
+        <div class="space-y-4">
+          <app-badge
+            variant="secondary"
+            className="mx-auto w-fit px-4 py-2 text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 border-0"
+          >
+            <lucide-angular [img]="Check" class="h-4 w-4 mr-2" />
+            Desuscripción Exitosa
+          </app-badge>
+
+          <h1
+            class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent pt-2"
+          >
+            ¡Listo!
+          </h1>
+
+          <div class="space-y-3">
+            <p class="text-xl text-[hsl(var(--muted-foreground))]">
+              Te has desuscrito exitosamente de nuestras notificaciones.
+            </p>
+            @if(userEmail){
+
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              El email
+              <span class="font-medium text-foreground">{{ userEmail }}</span>
+              ha sido removido de nuestra lista.
+            </p>
+            }
+          </div>
+        </div>
+
+        <!-- informacion adicional -->
+        <div
+          class="w-full max-w-md mx-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-card text-[hsl(var(--card-foreground))] shadow-sm"
+        >
+          <div
+            class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-lg"
+          >
+            <div class="space-y-4">
+              <h3 class="font-semibold text-green-700 dark:text-green-400">
+                ¿Qué significa esto?
+              </h3>
+              <ul
+                class="text-sm text-[hsl(var(--muted-foreground))] space-y-2 text-left"
+              >
+                <li>
+                  • Ya no recibirás notificaciones sobre el avance del portfolio
+                </li>
+                <li>• No te enviaremos más emails promocionales</li>
+                <li>• Puedes volver a suscribirte cuando quieras</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones -->
+
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center md:items-center"
+        >
+          <app-enlace
+            [href]="routeHome"
+            target="_self"
+            size="default"
+            rel="noopener noreferrer "
+            className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium"
+          >
+            <lucide-angular [img]="Home" class="h-4 w-4 mr-2" />
+            Volver a la pagina
+          </app-enlace>
+        </div>
+      </div>
+      } @if(isExpired){
+      <div class="flex flex-col gap-4">
+        <!-- icono -->
+        <div class="flex justify-center">
+          <div
+            class="p-6 bg-amber-100 dark:bg-amber-900/30 rounded-full shadow-lg"
+          >
+            <lucide-angular
+              [img]="AlertTriangle"
+              class="h-16 w-16 text-amber-600 dark:text-amber-400"
+            />
+          </div>
+        </div>
+
+        <!-- contenido de token invalido -->
+        <div class="space-y-4">
+          <app-badge
+            variant="secondary"
+            className="mx-auto w-fit px-4 py-2 text-sm font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/20 dark:text-amber-400 border-0"
+          >
+            <lucide-angular [img]="AlertTriangle" class="w-4 h-4 mr-2" />
+            Token Inválido
+          </app-badge>
+
+          <h1
+            class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 bg-clip-text text-transparent pt-2"
+          >
+            Enlace No Válido
+          </h1>
+
+          <div class="space-y-3">
+            <p class="text-xl text-[hsl(var(--muted-foreground))]">
+              El enlace de desuscripción no es válido o ha expirado.
+            </p>
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              Esto puede ocurrir si el enlace es muy antiguo o ya fue utilizado
+              anteriormente.
+            </p>
+          </div>
+        </div>
+
+        <!-- informacion ayuda -->
+        <div
+          class="w-full max-w-md mx-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-card text-[hsl(var(--card-foreground))] shadow-sm"
+        >
+          <div
+            class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-lg"
+          >
+            <div class="space-y-4">
+              <h3 class="font-semibold text-amber-700 dark:text-amber-400">
+                ¿Qué puedes hacer?
+              </h3>
+              <ul
+                class="text-sm text-[hsl(var(--muted-foreground))] space-y-2 text-left"
+              >
+                <li>• Verifica que hayas copiado el enlace completo</li>
+                <li>• Busca un email más reciente con el enlace</li>
+                <li>• Contáctanos si necesitas ayuda</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- botones -->
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center md:items-center"
+        >
+          <app-enlace
+            [href]="routeHome"
+            size="default"
+            target="_self"
+            className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium cursor-pointer"
+          >
+            <lucide-angular [img]="Home" class="h-4 w-4 mr-2" />
+            Volver a la pagina
+          </app-enlace>
+          <a
+            href="mailto:fabrii@email.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-[hsl(var(--background))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))] h-10 px-4 py-2 cursor-pointer"
+          >
+            <lucide-angular [img]="Mail" class="h-4 w-4 mr-2" />
+            Contactar Soporte
+          </a>
+        </div>
+      </div>
+      } @if(isError){
+      <div class="flex flex-col gap-4">
+        <div class="flex justify-center">
+          <div class="p-6 bg-red-100 dark:bg-red-900/30 rounded-full shadow-lg">
+            <lucide-angular
+              [img]="X"
+              class="h-16 w-16 text-red-600 dark:text-red-400"
+            />
+          </div>
+        </div>
+
+        <!-- contenido -->
+        <div class="space-y-4">
+          <app-badge
+            variant="secondary"
+            className="mx-auto w-fit px-4 py-2 text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 border-0"
+          >
+            <lucide-angular [img]="X" class="w-4 h-4 mr-2" />
+            Error de Procesamiento
+          </app-badge>
+
+          <h1
+            class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-red-600 via-red-600 to-pink-600 bg-clip-text text-transparent pt-2 leading-[1.25]"
+          >
+            Algo Salió Mal
+          </h1>
+
+          <div class="space-y-3">
+            <p class="text-xl text-[hsl(var(--muted-foreground))]">
+              Ocurrió un error al procesar tu desuscripción.
+            </p>
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              Por favor, inténtalo de nuevo más tarde o contáctanos para obtener
+              ayuda.
+            </p>
+          </div>
+        </div>
+
+        <!-- informacion del error -->
+        <div
+          class="w-full max-w-md mx-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-card text-[hsl(var(--card-foreground))] shadow-sm"
+        >
+          <div
+            class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-lg"
+          >
+            <div class="space-y-4">
+              <h3 class="font-semibold text-red-700 dark:text-red-400">
+                Posibles soluciones:
+              </h3>
+              <ul
+                class="text-sm text-[hsl(var(--muted-foreground))] space-y-2 text-left"
+              >
+                <li>• Intenta nuevamente en unos minutos</li>
+                <li>• Verifica tu conexión a internet</li>
+                <li>• Contáctanos si el problema persiste</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- botones de acción -->
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center md:items-center"
+        >
+          <app-button
+            type="button"
+            size="default"
+            className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium cursor-pointer"
+            (click)="tryAgain()"
+          >
+            <lucide-angular [img]="RefreshCcw" class="h-4 w-4 mr-2" />
+            Intentar de Nuevo
+          </app-button>
+          <a
+            href="mailto:fabrii@email.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-[hsl(var(--background))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))] h-10 px-4 py-2 cursor-pointer"
+          >
+            <lucide-angular [img]="Mail" class="h-4 w-4 mr-2" />
+            Contactar Soporte
+          </a>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+}

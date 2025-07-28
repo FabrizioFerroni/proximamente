@@ -1,0 +1,366 @@
+@if(loadingVerification){
+<app-loader [completed]="apiFinished" (finished)="onLoadingFinished()" />
+} @else{
+<div class="flex flex-col min-h-screen">
+  <app-header />
+
+  <div class="px-4">
+    <!-- flex-1 flex items-center justify-center -->
+    <!-- titulo -->
+    <div class="max-w-6xl mx-auto mb-8">
+      <h1
+        class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-2"
+      >
+        Panel de Administración - Emails enviados
+      </h1>
+      <p
+        class="text-[hsl(var(--base))] sm:text-lg text-[hsl(var(--muted-foreground))]"
+      >
+        Gestiona los emails enviados a tus suscriptores de tu portfolio
+      </p>
+    </div>
+    <!-- fin titulo -->
+    <!-- start cards -->
+    <div class="max-w-6xl mx-auto mb-8 grid grid-cols-1 sm:grid-cols-5 gap-4">
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-red-100 dark:bg-red-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Users"
+                class="h-6 w-6 text-red-600 dark:text-red-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.total }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Total Subs
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Mail"
+                class="h-6 w-6 text-pink-600 dark:text-pink-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.semana }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Esta Semana
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Calendar"
+                class="h-6 w-6 text-orange-600 dark:text-orange-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.hoy }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">Hoy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Check"
+                class="h-6 w-6 text-green-600 dark:text-green-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.success_true }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Exitosos
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-red-100 dark:bg-red-900/20 rounded-lg">
+              <lucide-angular
+                [img]="X"
+                class="h-6 w-6 text-red-600 dark:text-red-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.success_false }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Fallidos
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- fin start cards -->
+    <!-- tabla suscriptores -->
+    <div class="max-w-6xl mx-auto mb-8 md:mb-6">
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] shadow-sm"
+      >
+        <!-- card header -->
+        <div class="flex flex-col space-y-1.5 p-6">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          >
+            <div>
+              <div
+                class="flex items-center gap-2 text-lg sm:text-xl text-2xl font-semibold leading-none tracking-tight"
+              >
+                <lucide-angular [img]="Mail" class="h-5 w-5" />
+                Lista de Correos Enviados
+              </div>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mt-1">
+                Personas interesadas en tu portfolio que se le han enviado los
+                correos y su estado.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- fin card header -->
+        <!-- card content -->
+        <div class="p-6">
+          <!-- paginacion -->
+          <app-paginado
+            *ngIf="!loadingData"
+            [content]="emails!"
+            pageTitle="subscriptores"
+            [page]="page"
+            [size]="limit"
+            [totalElements]="totalElements"
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            [isFirst]="isFirst"
+            [isLast]="isLast"
+            (firstPage)="First()"
+            (rewind)="rewind()"
+            (forward)="forward()"
+            (lastPage)="Last()"
+            (setPage)="setPage($event)"
+          />
+          <!-- fin paginacion -->
+          <!-- vista movil? -->
+          @if(!loadingData){
+          <div class="block md:hidden space-y-4">
+            @for(item2 of emails; track $index){
+            <div
+              [id]="'notification-' + item2.id"
+              class="p-4 border rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50"
+            >
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex-1">
+                  <h3 class="font-medium text-sm">{{ item2.name }}</h3>
+                  <p
+                    class="text-xs text-[hsl(var(--muted-foreground))] break-all"
+                  >
+                    {{ item2.email }}
+                  </p>
+                  <hr class="border-t border-gray-200 my-2" />
+                  <p
+                    class="text-xs text-[hsl(var(--muted-foreground))] break-all"
+                  >
+                    {{ item2.message }}
+                  </p>
+                  <!-- <p class="text-xs text-[hsl(var(--muted-foreground))] break-all">
+                    {{ item2.messageId }}
+                  </p> -->
+                  <p
+                    class="text-xs text-[hsl(var(--muted-foreground))] break-all"
+                  >
+                    {{ item2.method }}
+                  </p>
+                </div>
+                <app-badge
+                  variant="outline"
+                  [className]="
+                    item2.success === 'Enviado'
+                      ? 'text-green-700 border-green-200 dark:text-green-400 dark:border-green-800 text-xs ml-2'
+                      : 'text-red-700 border-red-200 dark:text-red-400 dark:border-red-800 text-xs ml-2'
+                  "
+                >
+                  {{ item2.success }}
+                </app-badge>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]"
+              >
+                <span>#{{ item2.row_num }}</span>
+                <span>{{ item2.fecha }}</span>
+              </div>
+            </div>
+            }
+          </div>
+          }
+          <!-- fin vista movil? -->
+
+          <!-- vista escritorio -->
+          @if(!loadingData){
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b">
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    #
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Nombre
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Metodo
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Mensaje
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Mensaje ID
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Fecha
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--foreground))]"
+                  >
+                    Estado
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of emails; track $index) {
+                <tr
+                  [id]="'notification-' + item.id"
+                  class="border-b hover:bg-[hsl(var(--muted))]/50"
+                >
+                  <td class="py-3 px-4 text-sm">{{ item.row_num }}</td>
+                  <td class="py-3 px-4">
+                    <div class="font-medium">{{ item.name }}</div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="text-sm text-[hsl(var(--muted-foreground))]">
+                      {{ item.email }}
+                    </div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="text-sm">
+                      {{ item.method }}
+                    </div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="text-sm">
+                      {{ item.message }}
+                    </div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="text-sm">
+                      {{ item.messageId }}
+                    </div>
+                  </td>
+
+                  <td class="py-3 px-4">
+                    <div class="text-sm">
+                      {{ item.fecha }}
+                    </div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <app-badge
+                      variant="outline"
+                      [className]="
+                        item.success === 'Enviado'
+                          ? 'text-green-700 border-green-200 dark:text-green-400 dark:border-green-800'
+                          : 'text-red-700 border-red-200 dark:text-red-400 dark:border-red-800'
+                      "
+                    >
+                      {{ item.success }}
+                    </app-badge>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          }
+          <!-- fin vista escritorio -->
+          <!-- cargando... -->
+
+          @if(loadingData){
+          <div class="text-center py-8">
+            <lucide-angular
+              [img]="Loader2"
+              class="h-12 w-12 text-[hsl(var(--muted-foreground))] mx-auto mb-4 animate-spin"
+            />
+            <p class="text-[hsl(var(--muted-foreground))]">
+              Cargando <span class="animate-pulse">...</span>
+            </p>
+          </div>
+          }
+          <!-- fin cargando -->
+          <!-- si no hay datos -->
+          @if(!loadingData && emails.length === 0){
+          <div class="text-center py-8">
+            <lucide-angular
+              [img]="Users"
+              class="h-12 w-12 text-[hsl(var(--muted-foreground))] mx-auto mb-4"
+            />
+            <p class="text-[hsl(var(--muted-foreground))]">
+              No hay emails enviados aún
+            </p>
+          </div>
+          }
+          <!-- fin si no hay datos -->
+        </div>
+        <!-- fin card content -->
+      </div>
+    </div>
+    <!-- fin tabla suscriptores -->
+  </div>
+</div>
+}

@@ -1,0 +1,33 @@
+@if(content.length >= 1){
+<div
+  class="flex flex-col-reverse md:flex-row gap-2 md:gap-0 items-center justify-between text-sm text-muted-foreground mb-3"
+>
+  <p>
+    Mostrando {{ startIndex }} - {{ endIndex }} de {{ totalElements }}
+    {{ pageTitle }}
+  </p>
+  <div class="flex items-center gap-2">
+    <app-button
+      variant="outline"
+      size="sm"
+      className="h-8 w-8 p-0 cursor-pointer"
+      [disabled]="isFirst"
+      (click)="Rewind()"
+      [attr.data-tooltip]="'Anterior'"
+    >
+      <lucide-icon [img]="ArrowLeft" class="h-4 w-4" />
+    </app-button>
+    <span class="text-xs">{{ currentPage }} de {{ totalPagesAll }} </span>
+    <app-button
+      variant="outline"
+      size="sm"
+      className="h-8 w-8 p-0 cursor-pointer"
+      [disabled]="isLast"
+      (click)="Forward()"
+      [attr.data-tooltip]="'Siguiente'"
+    >
+      <lucide-icon [img]="ArrowRight" class="h-4 w-4" />
+    </app-button>
+  </div>
+</div>
+}

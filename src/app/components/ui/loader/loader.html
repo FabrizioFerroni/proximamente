@@ -1,0 +1,74 @@
+<div
+  class="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-red-900/20 dark:to-pink-900/20 flex flex-col items-center justify-center px-4"
+>
+  <div class="text-center space-y-8 max-w-md mx-auto">
+    <div class="flex justify-center">
+      <div class="p-6 bg-green-100 dark:bg-green-900/30 rounded-full shadow-lg">
+        <lucide-angular
+          [img]="Shield"
+          class="h-12 w-12 text-green-600 dark:text-green-400"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h2
+        class="text-3xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent"
+      >
+        ¡Acceso Autorizado!
+      </h2>
+      <p class="text-lg text-[hsl(var(--muted-foreground))]">
+        Cargando tu panel de administración...
+      </p>
+    </div>
+
+    <!-- Spinner de carga -->
+    <!--  <div class="flex justify-center">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-4 border-red-200 border-t-red-600 dark:border-red-800 dark:border-t-red-400"
+      ></div>
+    </div> -->
+
+    <!-- Barra de progreso animada -->
+    <div class="w-full max-w-sm mx-auto">
+      <div
+        class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner mb-12"
+      >
+        <div
+          class="bg-gradient-to-r from-red-500 to-pink-600 h-3 rounded-full transition-all duration-1000 ease-out"
+          [ngStyle]="{ width: progress + '%' }"
+        ></div>
+        <p class="text-sm text-[hsl(var(--muted-foreground))] text-center mt-2">
+          {{ progress }}%
+        </p>
+      </div>
+    </div>
+
+    <div
+      *ngIf="progress >= 0"
+      class="text-sm text-[hsl(var(--muted-foreground))] space-y-2 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 border border-gray-200/50 dark:border-gray-700/50"
+    >
+      <div
+        *ngIf="progress >= 0"
+        class="flex items-center justify-center gap-2 animate-pulse"
+      >
+        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        Verificando permisos de administrador...
+      </div>
+      <div
+        *ngIf="progress >= 40"
+        class="flex items-center justify-center gap-2 animate-pulse"
+      >
+        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+        Cargando datos de suscriptores...
+      </div>
+      <div
+        *ngIf="progress >= 70"
+        class="flex items-center justify-center gap-2 animate-pulse"
+      >
+        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+        Preparando estadísticas del dashboard...
+      </div>
+    </div>
+  </div>
+</div>

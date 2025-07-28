@@ -1,0 +1,11 @@
+<app-button
+  variant="ghost"
+  size="sm"
+  type="button"
+  (click)="toggleTheme()"
+  className="rounded-full cursor-pointer"
+  [attr.data-tooltip]="'Cambiar a ' + getThemeToChange(theme)"
+>
+  <lucide-icon [img]="getIconForTheme(theme)" class="w-4 h-4" />
+  <span class="sr-only">Toggle theme (Light/Dark/System)</span>
+</app-button>

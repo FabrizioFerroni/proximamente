@@ -1,0 +1,33 @@
+<main class="flex-1 flex items-center justify-center px-4 py-12 mt-[.46rem]">
+  <div
+    class="max-w-2xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150"
+  >
+    <app-badge
+      variant="secondary"
+      className="mx-auto w-fit px-4 py-2 text-sm font-medium bg-gradient-to-r from-red-500 to-pink-600 text-white border-0 cursor-pointer transition-all duration-300 hover:scale-110 hover:rotate-2 hover:shadow-lg hover:shadow-red-500/25"
+    >
+      <lucide-icon [img]="SparklesIcon" class="w-4 h-4 mr-2" />
+      En desarrollo
+    </app-badge>
+
+    <div class="space-y-4">
+      <h1
+        class="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent cursor-pointer transition-all duration-500 hover:scale-105 hover:-rotate-1 hover:drop-shadow-lg"
+      >
+        Próximamente
+      </h1>
+      <!-- leading-relaxed -->
+      <p
+        class="text-xl md:text-2xl text-[hsl(var(--muted-foreground))] max-w-lg mx-auto cursor-pointer transition-all duration-300 hover:scale-102 hover:text-[hsl(var(--foreground))]"
+      >
+        Estoy trabajando en mi nuevo portfolio.
+        <span
+          class="text-[hsl(var(--foreground))] font-medium transition-all duration-300 hover:text-red-600"
+        >
+          ¡Muy pronto online!
+        </span>
+      </p>
+    </div>
+    <app-email></app-email>
+  </div>
+</main>

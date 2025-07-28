@@ -1,0 +1,727 @@
+@if(loadingVerification){
+<app-loader [completed]="apiFinished" (finished)="onLoadingFinished()" />
+} @else{
+<app-header [user]="user" />
+<!--  style="height: calc(100vh - 72px)" -->
+<div class="px-4">
+  <!-- flex items-center justify-center -->
+  <!-- titulo -->
+  <div class="max-w-4xl mx-auto mb-8">
+    <h1
+      class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-2"
+    >
+      Mi Perfil
+    </h1>
+    <p
+      class="text-[hsl(var(--base))] sm:text-lg text-[hsl(var(--muted-foreground))]"
+    >
+      Gestiona tu información personal y configuración de seguridad
+    </p>
+  </div>
+  <!-- fin titulo -->
+  <!-- otras partes -->
+  <div
+    class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 select-none mb-8"
+  >
+    <!-- info personal y cambiar contraseña -->
+    <!-- card -->
+    <div
+      class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border-1"
+    >
+      <!-- card header -->
+      <div class="flex flex-col space-y-1.5 p-6">
+        <div
+          class="flex select-none items-center gap-2 text-2xl font-semibold leading-none tracking-tight"
+        >
+          <lucide-icon [img]="User" class="w-5 h-5" />
+          Información Personal
+        </div>
+      </div>
+      <!-- fin card header -->
+      <div class="p-6 pt-0">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+          <div class="space-y-2">
+            <label for="name" class="text-sm font-[550] text-left block">
+              Nombre
+            </label>
+
+            <!-- Nombre -->
+            <div>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                placeholder="Tu nombre"
+                class="w-full flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                [class.border-red-500]="name?.invalid && name?.touched"
+              />
+              <p
+                *ngIf="name?.invalid && name?.touched"
+                class="text-red-500 text-xs mt-1 text-left"
+              >
+                El nombre es obligatorio
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="lastname" class="text-sm font-[550] text-left block">
+              Apellido
+            </label>
+
+            <div>
+              <input
+                type="text"
+                id="lastname"
+                formControlName="lastname"
+                placeholder="Tu apellido"
+                class="w-full flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                [class.border-red-500]="lastname?.invalid && lastname?.touched"
+              />
+              <p
+                *ngIf="lastname?.invalid && lastname?.touched"
+                class="text-red-500 text-xs mt-1 text-left"
+              >
+                El apellido es obligatorio
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="username" class="text-sm font-[550] text-left block">
+              Nombre de usuario
+            </label>
+
+            <div>
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                placeholder="Tu nombre de usuario"
+                readonly
+                class="w-full flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50 readonly:cursor-not-allowed readonly:opacity-50"
+              />
+            </div>
+          </div>
+
+          @if(userInfoSuccess){
+          <app-button
+            type="submit"
+            [disabled]="userInfoSuccess"
+            className="w-full px-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-green-500 disabled:hover:to-green-600 cursor-default pointer-events-none transition-all duration-300"
+          >
+            <lucide-icon [img]="Check" class="w-4 h-4 mr-2" />
+            {{ userInfoMessage }}
+          </app-button>
+          } @else if(userInfoError){
+          <div class="flex items-center gap-2 text-red-600 text-xs mb-4">
+            <lucide-icon [img]="X" class="w-4 h-4" />
+            {{ userInfoMessage }}
+          </div>
+          } @else {
+          <app-button
+            type="submit"
+            [disabled]="isLoading || form.invalid"
+            className="w-full px-6 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-red-500 disabled:hover:to-pink-600 cursor-pointer transition-all duration-300"
+          >
+            @if(isLoading){
+            <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+            <span>Guardando...</span>
+            } @else {
+            <lucide-icon [img]="Save" class="w-4 h-4 mr-2" />
+            <span>Guardar cambios</span>
+            }
+          </app-button>
+          }
+        </form>
+      </div>
+    </div>
+    <!-- fin card -->
+    <!-- card -->
+    <div
+      class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border-1"
+    >
+      <!-- card header -->
+      <div class="flex flex-col space-y-1.5 p-6">
+        <div
+          class="flex select-none items-center gap-2 text-2xl font-semibold leading-none tracking-tight"
+        >
+          <lucide-icon [img]="Lock" class="w-5 h-5" />
+          Cambiar contraseña
+        </div>
+      </div>
+      <!-- fin card header -->
+      <div class="p-6 pt-0">
+        <form
+          [formGroup]="form2"
+          (ngSubmit)="onSubmitPassword()"
+          class="space-y-4"
+        >
+          <div class="space-y-2">
+            <label
+              for="passwordActual"
+              class="text-sm font-[550] text-left block"
+            >
+              Contraseña Actual
+            </label>
+
+            <div class="relative">
+              <input
+                id="passwordActual"
+                [type]="showPasswordActual ? 'text' : 'password'"
+                placeholder="Ingresa tu contraseña actual"
+                class="w-full pr-10 flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                required
+                formControlName="passwordActual"
+                [class.border-red-500]="
+                  passwordActual?.invalid && passwordActual?.touched
+                "
+              />
+              <app-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer"
+                (click)="showPasswordActual = !showPasswordActual"
+              >
+                @if (showPasswordActual){
+                <lucide-icon
+                  [img]="EyeOff"
+                  class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+                />
+                } @else {
+                <lucide-icon
+                  [img]="Eye"
+                  class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+                />
+                }
+              </app-button>
+            </div>
+            <div
+              *ngIf="
+                passwordActual?.invalid &&
+                passwordActual?.errors &&
+                (passwordActual?.dirty || passwordActual?.touched)
+              "
+            >
+              <small
+                class="text-red-500 text-xs mt-1 text-left"
+                *ngIf="passwordActual?.hasError('required')"
+              >
+                La contraseña es requerida.
+              </small>
+
+              @if (!passwordActual?.hasError('required')) {
+              <small
+                class="block text-red-500 text-xs mt-1 text-left"
+                [ngClass]="{
+                  hidden: isPasswordStrong(passwordActual?.value!),
+                }"
+              >
+                La contraseña debe tener al menos 8 caracteres y contener al
+                menos 1 letra minúscula, 1 letra mayúscula, 1 número y 1 símbolo
+                especial.
+              </small>
+              }
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="newPassword" class="text-sm font-[550] text-left block">
+              Contraseña Nueva
+            </label>
+
+            <div class="relative">
+              <input
+                id="newPassword"
+                [type]="showNewPassword ? 'text' : 'password'"
+                placeholder="Ingresa tu contraseña actual"
+                class="w-full pr-10 flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                required
+                formControlName="newPassword"
+                [class.border-red-500]="
+                  newPassword?.invalid && newPassword?.touched
+                "
+              />
+              <app-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer"
+                (click)="showNewPassword = !showNewPassword"
+              >
+                @if (showNewPassword){
+                <lucide-icon
+                  [img]="EyeOff"
+                  class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+                />
+                } @else {
+                <lucide-icon
+                  [img]="Eye"
+                  class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+                />
+                }
+              </app-button>
+            </div>
+            <div
+              *ngIf="
+                newPassword?.invalid &&
+                newPassword?.errors &&
+                (newPassword?.dirty || newPassword?.touched)
+              "
+            >
+              <small
+                class="text-red-500 text-xs mt-1 text-left"
+                *ngIf="newPassword?.hasError('required')"
+              >
+                La contraseña es requerida.
+              </small>
+
+              @if (!newPassword?.hasError('required')) {
+              <small
+                class="block text-red-500 text-xs mt-1 text-left"
+                [ngClass]="{
+                  hidden: isPasswordStrong(newPassword?.value!),
+                }"
+              >
+                La contraseña debe tener al menos 8 caracteres y contener al
+                menos 1 letra minúscula, 1 letra mayúscula, 1 número y 1 símbolo
+                especial.
+              </small>
+              }
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label
+              for="confirmNewPassword"
+              class="text-sm font-[550] text-left block"
+            >
+              Repetir Contraseña Nueva
+            </label>
+
+            <div class="relative">
+              <input
+                id="confirmNewPassword"
+                [type]="showConfirmNewPassword ? 'text' : 'password'"
+                placeholder="Repeti tu contraseña nueva"
+                class="w-full pr-10 flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                required
+                formControlName="confirmNewPassword"
+                [class.border-red-500]="
+                  confirmNewPassword?.invalid && confirmNewPassword?.touched
+                "
+              />
+              <app-button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer"
+                (click)="showConfirmNewPassword = !showConfirmNewPassword"
+              >
+                @if (showConfirmNewPassword){
+                <lucide-icon
+                  [img]="EyeOff"
+                  class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+                />
+                } @else {
+                <lucide-icon
+                  [img]="Eye"
+                  class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+                />
+                }
+              </app-button>
+            </div>
+            <div
+              *ngIf="
+                confirmNewPassword?.invalid &&
+                confirmNewPassword?.errors &&
+                (confirmNewPassword?.dirty || confirmNewPassword?.touched)
+              "
+            >
+              <small
+                class="text-red-500 text-xs mt-1 text-left"
+                *ngIf="confirmNewPassword?.hasError('required')"
+              >
+                La contraseña es requerida.
+              </small>
+
+              @if (!confirmNewPassword?.hasError('required')) {
+              <small
+                class="block text-red-500 text-xs mt-1 text-left"
+                [ngClass]="{
+                  hidden: isPasswordStrong(confirmNewPassword?.value!),
+                }"
+              >
+                La contraseña debe tener al menos 8 caracteres y contener al
+                menos 1 letra minúscula, 1 letra mayúscula, 1 número y 1 símbolo
+                especial.
+              </small>
+              }
+            </div>
+          </div>
+
+          @if(passwordSuccess){
+          <app-button
+            type="submit"
+            [disabled]="passwordSuccess"
+            className="w-full px-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-green-500 disabled:hover:to-green-600 cursor-default pointer-events-none transition-all duration-300"
+          >
+            <lucide-icon [img]="Check" class="w-4 h-4 mr-2" />
+            {{ passwordMessage }}
+          </app-button>
+          } @else if(passwordError){
+          <div class="flex items-center gap-2 text-red-600 text-xs mb-4">
+            <app-button
+              type="submit"
+              [disabled]="passwordError"
+              class="w-full"
+              className="w-full px-6 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-red-500 disabled:hover:to-red-600 cursor-default pointer-events-none transition-all duration-300"
+            >
+              <lucide-icon [img]="X" class="w-4 h-4" />
+              {{ passwordMessage }}
+            </app-button>
+          </div>
+          } @else {
+          <app-button
+            type="submit"
+            [disabled]="isLoading || form2.invalid"
+            className="w-full px-6 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-blue-500 disabled:hover:to-blue-600 cursor-pointer transition-all duration-300"
+          >
+            @if(isLoading){
+            <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+            <span>Cambiando contraseña...</span>
+            } @else {
+            <lucide-icon [img]="Lock" class="w-4 h-4 mr-2" />
+            <span>Cambiar contraseña</span>
+            }
+          </app-button>
+          }
+
+          <!-- <app-button
+            type="submit"
+            [disabled]="isLoading2 || form2.invalid"
+            className="w-full px-6 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gradient-to-r disabled:hover:from-blue-500 disabled:hover:to-blue-600 cursor-pointer transition-all duration-300"
+          >
+            @if(isLoading2){
+            <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+            <span>Cambiando contraseña...</span>
+            } @else {
+            <lucide-icon [img]="Lock" class="w-4 h-4 mr-2" />
+            <span>Cambiar contraseña</span>
+            }
+          </app-button> -->
+        </form>
+      </div>
+    </div>
+    <!-- fin card -->
+    <!-- fin info personal y cambiar contraseña -->
+    <!-- activar doble factor -->
+    <!-- card -->
+    <div
+      class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 lg:col-span-2 rounded-lg border bg-card text-card-foreground shadow-sm"
+    >
+      <!-- card header -->
+      <div class="flex flex-col space-y-1.5 p-6">
+        <div
+          class="flex select-none items-center gap-2 text-2xl font-semibold leading-none tracking-tight"
+        >
+          <lucide-icon [img]="Shield" class="w-5 h-5" />
+          Configuración de Seguridad
+        </div>
+      </div>
+      <!-- fin card header -->
+      <div class="p-6 pt-0">
+        <div class="space-y-6">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4"
+          >
+            <div class="space-y-1 flex-1">
+              <h3 class="font-medium">Autenticación de Dos Factores</h3>
+              <p class="text-sm text-muted-foreground">
+                Agrega una capa extra de seguridad a tu cuenta
+              </p>
+            </div>
+            <div
+              class="flex flex-col sm:flex-row items-start sm:items-center gap-3"
+            >
+              <app-badge
+                [variant]="
+                  profileData.twoFactorEnabled ? 'default' : 'secondary'
+                "
+                className="w-fit cursor-default pointer-events-none select-none"
+              >
+                {{ profileData.twoFactorEnabled ? "Activado" : "Desactivado" }}
+              </app-badge>
+              <app-button
+                id="toggleTwoFactor"
+                [disabled]="profileLoading"
+                [variant]="
+                  profileData.twoFactorEnabled ? 'destructive' : 'default'
+                "
+                size="sm"
+                class="w-full"
+                (click)="
+                  handleToggleTwoFactor(
+                    profileData.id,
+                    profileData.twoFactorEnabled
+                  )
+                "
+                className="w-full sm:w-auto cursor-pointer select-none"
+                [attr.data-tooltip]="
+                  profileData.twoFactorEnabled
+                    ? 'Desactivar 2FA'
+                    : 'Activar 2FA'
+                "
+              >
+                @if (profileLoading){
+                <lucide-icon
+                  [img]="Loader2"
+                  class="w-4 h-4 mr-2 animate-spin"
+                />
+                <span>Cargando...</span>
+                } @else {
+                <span>{{
+                  profileData.twoFactorEnabled ? "Desactivar" : "Activar"
+                }}</span>
+                }
+              </app-button>
+            </div>
+          </div>
+
+          <!-- {profileData.twoFactorEnabled && ( -->
+          @if(profileData.twoFactorEnabled ){
+          <div
+            class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
+          >
+            <div class="flex items-start gap-3">
+              <lucide-icon
+                [img]="Shield"
+                class="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0"
+              />
+              <div class="flex-1">
+                <h4 class="font-medium text-blue-900 dark:text-blue-100">
+                  2FA Configurado
+                </h4>
+                <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                  Tu cuenta está protegida con autenticación de dos factores.
+                  Necesitarás tu código de verificación para iniciar sesión.
+                </p>
+              </div>
+            </div>
+          </div>
+          }
+          <!-- )} -->
+        </div>
+      </div>
+    </div>
+    <!-- fin card -->
+    <!-- fin activar doble factor -->
+    <!-- sesiones activas -->
+    <!-- card -->
+    <div
+      class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 lg:col-span-2 rounded-lg border bg-card text-card-foreground shadow-sm"
+    >
+      <!-- card header -->
+      <div class="flex flex-col space-y-1.5 p-6">
+        <div
+          class="flex select-none items-center gap-2 text-2xl font-semibold leading-none tracking-tight"
+        >
+          <lucide-icon [img]="Wifi" class="w-5 h-5" />
+          Sesiones Activas
+        </div>
+        <p class="text-sm text-[hsl(var(--muted-foreground))]">
+          Dispositivos y ubicaciones donde tienes sesión iniciada
+        </p>
+      </div>
+      <!-- fin card header -->
+      <div class="p-6 pt-0">
+        <!-- <div class="space-y-4"> -->
+        <!-- aca deberia ir el for a sesiones -->
+        <div class="space-y-4">
+          <!-- paginacion -->
+          <app-paginado
+            *ngIf="!isLoading3"
+            [content]="sessions!"
+            pageTitle="sesiones"
+            [page]="page"
+            [size]="limit"
+            [totalElements]="totalElements"
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            [isFirst]="isFirst"
+            [isLast]="isLast"
+            (firstPage)="First()"
+            (rewind)="rewind()"
+            (forward)="forward()"
+            (lastPage)="Last()"
+            (setPage)="setPage($event)"
+          />
+          <!-- fin paginacion -->
+          @if(isLoading3){
+          <div
+            id="session-loading"
+            class="p-4 border rounded-lg border-gray-200 bg-gray-50/50 dark:border-gray-700 dark:bg-gray-800/50"
+          >
+            <div class="flex justify-center items-center gap-2">
+              <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+              <span>Cargando sesiones...</span>
+            </div>
+          </div>
+          } @else{ @for (item of sessions; track $index) {
+          <div
+            id="session-{{ item.id }}"
+            [class]="
+              'p-4 border rounded-lg ' +
+              (item.isCurrent
+                ? 'border-green-200 bg-green-50/50 dark:border-green-800 dark:bg-green-900/10'
+                : 'border-gray-200 bg-gray-50/50 dark:border-gray-700 dark:bg-gray-800/50')
+            "
+          >
+            <div
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+            >
+              <div class="flex items-start gap-3 flex-1">
+                <div class="p-2 bg-white dark:bg-gray-800 rounded-lg border">
+                  @if(item.device == 'Mobile'){
+                  <lucide-icon
+                    [img]="Smartphone"
+                    class="h-5 w-5 text-blue-600 dark:text-blue-400"
+                  />
+                  } @else if(item.device == 'Tablet'){
+                  <lucide-icon
+                    [img]="Tablet"
+                    class="h-5 w-5 text-purple-600 dark:text-purple-400"
+                  />
+                  } @else {
+                  <lucide-icon
+                    [img]="Monitor"
+                    class="h-5 w-5 text-gray-600 dark:text-gray-400"
+                  />
+                  }
+                </div>
+
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h4 class="font-medium text-sm">{{ item.device }}</h4>
+                    @if(item.isCurrent){
+                    <app-badge
+                      variant="default"
+                      className="text-xs bg-green-600 hover:bg-green-700"
+                    >
+                      Actual
+                    </app-badge>
+                    }
+                  </div>
+
+                  <div class="space-y-1 text-xs text-muted-foreground">
+                    <p class="flex items-center gap-1">
+                      @if(item.device == 'Mobile'){
+                      <lucide-icon [img]="Smartphone" class="h-3 w-3" />
+                      } @else if(item.device == 'Tablet'){
+                      <lucide-icon [img]="Tablet" class="h-3 w-3" />
+                      } @else {
+                      <lucide-icon [img]="Monitor" class="h-3 w-3" />
+                      }
+                      {{ item.browser }} • {{ item.system_operative }}
+                    </p>
+                    <p class="flex items-center gap-1">
+                      <lucide-icon [img]="MapPin" class="h-3 w-3" />
+                      {{ item.location }} • {{ item.ip }}
+                    </p>
+                    <p class="flex items-center gap-1">
+                      <lucide-icon [img]="Clock" class="h-3 w-3" />
+                      {{ item.isCurrent ? "Ahora" : item.timeAlive }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row gap-2">
+                @if(!item.isCurrent){
+                <app-button
+                  variant="outline"
+                  size="sm"
+                  id="buttonClose"
+                  (click)="closeSession(item.jti)"
+                  className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20 bg-transparent cursor-pointer w-full"
+                  [attr.data-tooltip]="'Cerrar Sesi&oacute;n'"
+                >
+                  <lucide-icon [img]="X" class="h-4 w-4 mr-1" />
+                  Cerrar
+                </app-button>
+
+                }
+              </div>
+            </div>
+          </div>
+          }
+          <!-- fin aca deberia ir el for a sesiones -->
+          <div
+            class="pt-4 border-t border-[hsl(var(--muted))] dark:border-[hsl(var(--acent))]"
+          >
+            <div
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+            >
+              <div class="flex items-start gap-3">
+                <lucide-icon
+                  [img]="AlertTriangle"
+                  class="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0"
+                />
+
+                <div class="flex-1">
+                  <h4
+                    class="font-medium text-sm text-amber-900 dark:text-amber-100"
+                  >
+                    Seguridad de Sesiones
+                  </h4>
+                  <p class="text-xs text-amber-700 dark:text-amber-300 mt-1">
+                    Si no reconoces alguna sesión, ciérrala inmediatamente y
+                    cambia tu contraseña.
+                  </p>
+                </div>
+              </div>
+
+              <app-button
+                variant="outline"
+                size="sm"
+                [disabled]="sessions?.length! < 2"
+                (click)="closeAllSessions()"
+                className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20 w-full sm:w-auto bg-transparent cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:pointer-events-none"
+              >
+                <lucide-icon [img]="X" class="h-4 w-4 mr-2" />
+                Cerrar Todas las Sesiones
+              </app-button>
+            </div>
+          </div>
+          }
+        </div>
+        <!-- </div> -->
+      </div>
+    </div>
+    <!-- fin card -->
+    <!-- fin sesiones activas -->
+  </div>
+  <!-- fin otras partes -->
+</div>
+<div
+  *ngIf="mostrarModal2FA"
+  class="fixed inset-0 z-40 bg-black/50 flex items-center justify-center"
+>
+  <!-- Modal container -->
+  <div
+    class="relative z-50 w-full max-w-2xl mx-auto"
+    (click)="$event.stopPropagation()"
+  >
+    <app-two-factor-setup
+      *ngIf="mostrarModal2FA"
+      [twoFactorSetupStep]="paso"
+      [qrImage]="qrImage"
+      [secretKey]="secretKey"
+      [qrConfig]="profileData.qrConfig"
+      (close)="cerrarModal()"
+      (nextStep)="paso = 2"
+    ></app-two-factor-setup>
+  </div>
+</div>
+}

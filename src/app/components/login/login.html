@@ -1,0 +1,128 @@
+<app-header></app-header>
+<div
+  class="flex items-center justify-center px-4"
+  style="height: calc(100vh - 72px)"
+>
+  <div
+    class="rounded-lg border bg-card text-[hsl(var(--card-foreground))] shadow-sm w-full max-w-md border-2 shadow-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50"
+  >
+    <div class="text-center flex flex-col space-y-1.5 p-6">
+      <div
+        class="text-2xl font-[700] bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent leading-none tracking-tight"
+      >
+        Panel de Administración
+      </div>
+      <p class="text-[hsl(var(--muted-foreground))]">
+        Ingresa tus credenciales para acceder
+      </p>
+    </div>
+    <div
+      class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-b-lg"
+    >
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="space-y-4"
+        novalidate
+      >
+        <div class="space-y-2">
+          <label
+            for="username"
+            class="text-sm font-medium flex items-center gap-2"
+          >
+            <lucide-icon [img]="User" class="w-4 h-4" />
+            Usuario
+          </label>
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            placeholder="Ingresa tu usuario"
+            class="w-full flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+            [class.border-red-500]="username?.invalid && username?.touched"
+            required
+          />
+          <p
+            *ngIf="username?.invalid && username?.touched"
+            class="text-red-500 text-xs mt-1 text-left"
+          >
+            El nombre de usuario es obligatorio
+          </p>
+        </div>
+        <div class="space-y-2">
+          <label
+            for="password"
+            class="text-sm font-medium flex items-center gap-2"
+          >
+            <lucide-icon [img]="Password" class="w-4 h-4" />
+            Contraseña
+          </label>
+          <div class="relative">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Ingresa tu contraseña"
+              class="w-full pr-10 flex h-10 rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+              required
+              formControlName="password"
+              [class.border-red-500]="password?.invalid && password?.touched"
+            />
+            <app-button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer"
+              (click)="showPassword = !showPassword"
+            >
+              @if (showPassword){
+              <lucide-icon
+                [img]="EyeOff"
+                class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+              />
+              } @else {
+              <lucide-icon
+                [img]="Eye"
+                class="w-4 h-4 text-[hsl(var(--muted-foreground))]"
+              />
+              }
+            </app-button>
+          </div>
+          <p
+            *ngIf="password?.invalid && password?.touched"
+            class="text-red-500 text-xs mt-1 text-left"
+          >
+            La contraseña es obligatorio
+          </p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <input
+            id="remember1"
+            type="checkbox"
+            formControlName="remember"
+            (change)="remember()"
+            class="h-4 w-4 text-red-600 focus:ring-offset-0 focus:ring-red-600 ring-red-600 cursor-pointer border-gray-300 rounded"
+          />
+          <label
+            for="remember1"
+            class="text-sm text-[hsl(var(--muted-foreground))] cursor-pointer"
+          >
+            Recordar mi sesión
+          </label>
+        </div>
+        <app-button
+          type="submit"
+          [disabled]="isLoading || form.invalid"
+          className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium cursor-pointer transition-all duration-300"
+        >
+          @if(isLoading){
+          <lucide-icon [img]="Loader2" class="w-4 h-4 mr-2 animate-spin" />
+          <span>Iniciando sesion...</span>
+          } @else {
+          <lucide-icon [img]="LogIn" class="w-4 h-4 mr-2" />
+          <span>Iniciar sesion</span>
+          }
+        </app-button>
+      </form>
+    </div>
+  </div>
+</div>

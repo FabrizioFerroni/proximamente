@@ -1,0 +1,319 @@
+@if(loadingVerification){
+<app-loader [completed]="apiFinished" (finished)="onLoadingFinished()" />
+} @else{
+<div class="flex flex-col min-h-screen">
+  <app-header />
+
+  <div class="px-4">
+    <!-- flex-1 flex items-center justify-center -->
+    <!-- titulo -->
+    <div class="max-w-6xl mx-auto mb-8">
+      <h1
+        class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-2"
+      >
+        Panel de Administración
+      </h1>
+      <p
+        class="text-[hsl(var(--base))] sm:text-lg text-[hsl(var(--muted-foreground))]"
+      >
+        Gestiona los suscriptores de tu portfolio
+      </p>
+    </div>
+    <!-- fin titulo -->
+    <!-- start cards -->
+    <div class="max-w-6xl mx-auto mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-red-100 dark:bg-red-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Users"
+                class="h-6 w-6 text-red-600 dark:text-red-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.total }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Total Suscriptores
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Mail"
+                class="h-6 w-6 text-pink-600 dark:text-pink-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.semana }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Esta Semana
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-card-foreground shadow-sm"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+              <lucide-angular
+                [img]="Calendar"
+                class="h-6 w-6 text-orange-600 dark:text-orange-400"
+              />
+            </div>
+            <div>
+              <p class="text-2xl font-bold">{{ reports.hoy }}</p>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">Hoy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- fin start cards -->
+    <!-- tabla suscriptores -->
+    <div class="max-w-6xl mx-auto mb-8 md:mb-0">
+      <div
+        class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] shadow-sm"
+      >
+        <!-- card header -->
+        <div class="flex flex-col space-y-1.5 p-6">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          >
+            <div>
+              <div
+                class="flex items-center gap-2 text-lg sm:text-xl text-2xl font-semibold leading-none tracking-tight"
+              >
+                <lucide-angular [img]="Users" class="h-5 w-5" />
+                Lista de Suscriptores
+              </div>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mt-1">
+                Personas interesadas en tu portfolio
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <app-button
+                size="sm"
+                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white w-full sm:w-auto cursor-pointer"
+                (click)="exportToExcel()"
+              >
+                @if(isLoadingExport){
+                <lucide-icon
+                  [img]="Loader2"
+                  class="w-4 h-4 mr-2 animate-spin"
+                />
+                <span
+                  >Exportando a excel
+                  <span class="animate-pulse">...</span></span
+                >
+                } @else {
+                <lucide-icon [img]="Download" class="h-4 w-4 mr-2" />
+                Exportar a excel }
+              </app-button>
+
+              <app-button
+                type="button"
+                size="sm"
+                (click)="notifyMail()"
+                [disabled]="isLoadingWorkflow"
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white w-full sm:w-auto cursor-pointer"
+              >
+                @if(isLoadingWorkflow){
+                <lucide-icon
+                  [img]="Loader2"
+                  class="w-4 h-4 mr-2 animate-spin"
+                />
+                <span
+                  >Enviando notificaciones
+                  <span class="animate-pulse">...</span></span
+                >
+                } @else {
+                <lucide-icon [img]="Mail" class="h-4 w-4 mr-2" />
+                Notificar a todos por mail }
+              </app-button>
+            </div>
+          </div>
+        </div>
+        <!-- fin card header -->
+        <!-- card content -->
+        <div class="p-6">
+          <!-- paginacion -->
+          <app-paginado
+            *ngIf="!loadingData"
+            [content]="notifications!"
+            pageTitle="subscriptores"
+            [page]="page"
+            [size]="limit"
+            [totalElements]="totalElements"
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            [isFirst]="isFirst"
+            [isLast]="isLast"
+            (firstPage)="First()"
+            (rewind)="rewind()"
+            (forward)="forward()"
+            (lastPage)="Last()"
+            (setPage)="setPage($event)"
+          />
+          <!-- fin paginacion -->
+          <!-- vista movil? -->
+          @if(!loadingData){
+          <div class="block md:hidden space-y-4">
+            @for(item2 of notifications; track $index){
+            <div
+              [id]="'notification-' + item2.id"
+              class="p-4 border rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50"
+            >
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex-1">
+                  <h3 class="font-medium text-sm">{{ item2.name }}</h3>
+                  <p
+                    class="text-xs text-[hsl(var(--muted-foreground))] break-all"
+                  >
+                    {{ item2.email }}
+                  </p>
+                </div>
+                <app-badge
+                  variant="outline"
+                  [className]="
+                    item2.status === 'Activo'
+                      ? 'text-green-700 border-green-200 dark:text-green-400 dark:border-green-800 text-xs ml-2'
+                      : 'text-red-700 border-red-200 dark:text-red-400 dark:border-red-800 text-xs ml-2'
+                  "
+                >
+                  {{ item2.status }}
+                </app-badge>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-[hsl(var(--muted-foreground))]"
+              >
+                <span>#{{ item2.row_num }}</span>
+                <span>{{ item2.fecha }}</span>
+              </div>
+            </div>
+            }
+          </div>
+          }
+          <!-- fin vista movil? -->
+
+          <!-- vista escritorio -->
+          @if(!loadingData){
+          <div class="hidden md:block overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b">
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--muted-foreground))]"
+                  >
+                    #
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--muted-foreground))]"
+                  >
+                    Nombre
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--muted-foreground))]"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--muted-foreground))]"
+                  >
+                    Fecha
+                  </th>
+                  <th
+                    class="text-left py-3 px-4 font-medium text-[hsl(var(--muted-foreground))]"
+                  >
+                    Estado
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of notifications; track $index) {
+                <tr
+                  [id]="'notification-' + item.id"
+                  class="border-b hover:bg-[hsl(var(--muted))]/50"
+                >
+                  <td class="py-3 px-4 text-sm">{{ item.row_num }}</td>
+                  <td class="py-3 px-4">
+                    <div class="font-medium">{{ item.name }}</div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="text-sm text-[hsl(var(--muted-foreground))]">
+                      {{ item.email }}
+                    </div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <div class="text-sm">
+                      {{ item.fecha }}
+                    </div>
+                  </td>
+                  <td class="py-3 px-4">
+                    <app-badge
+                      variant="outline"
+                      [className]="
+                        item.status === 'Activo'
+                          ? 'text-green-700 border-green-200 dark:text-green-400 dark:border-green-800'
+                          : 'text-red-700 border-red-200 dark:text-red-400 dark:border-red-800'
+                      "
+                    >
+                      {{ item.status }}
+                    </app-badge>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          }
+          <!-- fin vista escritorio -->
+          <!-- cargando... -->
+
+          @if(loadingData){
+          <div class="text-center py-8">
+            <lucide-angular
+              [img]="Loader2"
+              class="h-12 w-12 text-[hsl(var(--muted-foreground))] mx-auto mb-4 animate-spin"
+            />
+            <p class="text-[hsl(var(--muted-foreground))]">
+              Cargando <span class="animate-pulse">...</span>
+            </p>
+          </div>
+          }
+          <!-- fin cargando -->
+          <!-- si no hay datos -->
+          @if(!loadingData &&notifications.length === 0){
+          <div class="text-center py-8">
+            <lucide-angular
+              [img]="Users"
+              class="h-12 w-12 text-[hsl(var(--muted-foreground))] mx-auto mb-4"
+            />
+            <p class="text-[hsl(var(--muted-foreground))]">
+              No hay suscriptores aún
+            </p>
+          </div>
+          }
+          <!-- fin si no hay datos -->
+        </div>
+        <!-- fin card content -->
+      </div>
+    </div>
+    <!-- fin tabla suscriptores -->
+  </div>
+</div>
+}

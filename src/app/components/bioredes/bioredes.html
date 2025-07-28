@@ -1,0 +1,108 @@
+<section
+  class="border-t py-12 bg-gradient-to-r from-red-50/50 via-pink-50/50 to-orange-50/50 dark:from-gray-800/50 dark:via-red-900/10 dark:to-pink-900/10"
+>
+  <!--   -->
+  <div class="max-w-4xl mx-auto px-4 text-center space-y-8">
+    <!-- {/* Bio */} -->
+    <div class="space-y-4">
+      <h2 class="text-2xl font-semibold">Hola, soy Fabrii 👋</h2>
+      <p class="text-lg text-[hsl(var(--muted-foreground))] max-w-2xl mx-auto">
+        Desarrollador fullstack junior especializado en
+        <app-badge
+          variant="outline"
+          className="mx-1 border-orange-200 text-orange-700 dark:border-orange-800 dark:text-orange-300"
+        >
+          Angular </app-badge
+        >,
+        <app-badge
+          variant="outline"
+          className="mx-1 border-red-200 text-red-700 dark:border-red-800 dark:text-red-300"
+        >
+          NestJS
+        </app-badge>
+        y
+        <app-badge
+          variant="outline"
+          className="mx-1 border-purple-200 text-purple-700 dark:border-purple-800 dark:text-purple-300"
+        >
+          MySQL
+        </app-badge>
+        . Apasionado por crear experiencias web modernas y funcionales.
+      </p>
+    </div>
+
+    <!-- {/* Redes sociales */} -->
+    <div class="flex justify-center gap-4">
+      <a
+        href="https://github.com"
+        id="github"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full bg-transparent cursor-pointer border border-input bg-[hsl(var(--background))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))] h-10 w-10 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+        [attr.data-tooltip]="'GitHub'"
+      >
+        <lucide-icon [img]="Github" />
+        <span class="sr-only">GitHub</span>
+      </a>
+      <!-- <app-enlace
+        variant="outline"
+        size="icon"
+        className="rounded-full bg-transparent cursor-pointer"
+        href="https://github.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.data-tooltip]="'GitHub'"
+      >
+        <lucide-icon [img]="Github" />
+        <span class="sr-only">GitHub</span>
+      </app-enlace> -->
+      <!-- <app-enlace
+        variant="outline"
+        size="icon"
+        className="rounded-full bg-transparent cursor-pointer"
+        href="https://linkedin.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.data-tooltip]="'LinkedIn'"
+      >
+        <lucide-icon [img]="Linkedin" />
+        <span class="sr-only">LinkedIn</span>
+      </app-enlace> -->
+      <a
+        href="https://linkedin.com"
+        target="_blank"
+        id="linkedin"
+        rel="noopener noreferrer"
+        class="rounded-full bg-transparent cursor-pointer border border-input bg-[hsl(var(--background))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))] h-10 w-10 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+        [attr.data-tooltip]="'LinkedIn'"
+      >
+        <lucide-icon [img]="Linkedin" />
+        <span class="sr-only">LinkedIn</span>
+      </a>
+
+      <a
+        href="mailto:fabrii@email.com"
+        target="_blank"
+        id="email"
+        rel="noopener noreferrer"
+        class="rounded-full bg-transparent cursor-pointer border border-input bg-[hsl(var(--background))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))] h-10 w-10 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+        [attr.data-tooltip]="'Email'"
+      >
+        <lucide-icon [img]="Mail" />
+        <span class="sr-only">Email</span>
+      </a>
+      <!--  <app-enlace
+        variant="outline"
+        size="icon"
+        className="rounded-full bg-transparent cursor-pointer"
+        href="mailto:fabrii@email.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.data-tooltip]="'Email'"
+      >
+        <lucide-icon [img]="Mail" />
+        <span class="sr-only">Email</span>
+      </app-enlace> -->
+    </div>
+  </div>
+</section>

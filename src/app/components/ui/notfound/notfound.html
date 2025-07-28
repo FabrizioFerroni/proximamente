@@ -1,0 +1,143 @@
+<div
+  class="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-red-900/20 dark:to-pink-900/20 flex flex-col items-center justify-center px-0 md:px-4 select-none"
+>
+  <div class="absolute top-4 left-4 right-4 flex justify-between">
+    <app-button
+      variant="ghost"
+      size="sm"
+      className="cursor-pointer"
+      (click)="goBack()"
+      [attr.data-tooltip]="'Volver a la pagina anterior'"
+    >
+      <lucide-angular [img]="ArrowLeft" class="h-4 w-4 mr-2" />
+      <span class="hidden sm:inline">Volver a la pagina anterior</span>
+      <span class="sm:hidden">Atrás</span>
+    </app-button>
+  </div>
+  <div
+    class="max-w-2xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 my-8 md:my-0 px-2 md:px-0"
+  >
+    <!-- {/* Número 404 grande */} -->
+    <div class="relative">
+      <h1
+        class="text-8xl sm:text-9xl md:text-[12rem] font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent opacity-20 select-none"
+      >
+        404
+      </h1>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div
+          class="p-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full border-2 border-gray-200/50 dark:border-gray-700/50 shadow-lg"
+        >
+          <lucide-angular
+            [img]="AlertTriangle"
+            class="h-12 w-12 text-red-500"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- {/* Contenido principal */} -->
+    <div
+      class="border-2 shadow-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg border bg-card text-card-foreground shadow-sm"
+    >
+      <div
+        class="p-8 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 rounded-lg"
+      >
+        <div class="space-y-6">
+          <!-- {/* Título y descripción */} -->
+          <div class="space-y-4">
+            <h2
+              class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent"
+            >
+              ¡Oops! Página no encontrada
+            </h2>
+            <p
+              class="text-lg text-[hsl(var(--muted-foreground))] max-w-lg mx-auto leading-relaxed"
+            >
+              La página que buscas no existe o ha sido movida. No te preocupes,
+              te ayudamos a encontrar lo que necesitas.
+            </p>
+          </div>
+
+          <!-- {/* Sugerencias */} -->
+          <div
+            class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
+          >
+            <div class="flex items-start gap-3">
+              <lucide-angular
+                [img]="Search"
+                class="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0"
+              />
+              <div class="text-left">
+                <h3 class="font-medium text-blue-900 dark:text-blue-100 mb-2">
+                  ¿Qué puedes hacer?
+                </h3>
+                <ul class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                  <li>• Verifica que la URL esté escrita correctamente</li>
+                  <li>• Vuelve a la página principal</li>
+                  <li>• Usa el botón "Atrás" de tu navegador</li>
+                  <li>• Contacta conmigo si crees que es un error</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- {/* Botones de acción */} -->
+          <div class="flex justify-center">
+            <app-enlace
+              [href]="routeHome"
+              target="_self"
+              className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium"
+            >
+              <lucide-angular [img]="Home" className="h-4 w-4 mr-2" />
+              Ir al Inicio
+            </app-enlace>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- {/* Información adicional */} -->
+    <div class="text-center space-y-4">
+      <p class="text-sm text-[hsl(var(--muted-foreground))]">
+        Si necesitas ayuda, puedes contactarme a través de mis redes sociales
+      </p>
+
+      <!-- {/* Enlaces a redes sociales */} -->
+      <div class="flex justify-center gap-4">
+        <a
+          href="https://github.com"
+          target="_blank"
+          class="rounded-full bg-transparent text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
+          rel="noopener noreferrer"
+        >
+          <lucide-angular [img]="Github" class="h-5 w-5" />
+          <span class="sr-only">GitHub</span>
+        </a>
+        <a
+          href="https://linkedin.com"
+          target="_blank"
+          class="rounded-full bg-transparent text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
+          rel="noopener noreferrer"
+        >
+          <lucide-angular [img]="Linkedin" class="h-5 w-5" />
+          <span class="sr-only">LinkedIn</span>
+        </a>
+        <a
+          class="rounded-full bg-transparent text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
+          href="mailto:fabrizio.dev.ar@gmail.com"
+        >
+          <lucide-angular [img]="Mail" class="h-5 w-5" />
+          <span class="sr-only">Email</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- {/* Footer minimalista */} -->
+  <footer
+    class="my-4 md:my-0 w-full md:absolute md:bottom-4 text-center text-xs text-[hsl(var(--muted-foreground))] border-t pt-3 yx-0 mx-0 border-t-gray-200/50 dark:border-t-gray-700/50"
+  >
+    <p>© {{ year }} Fabrizio Dev. Hecho con ❤️ y mucho café.</p>
+  </footer>
+</div>

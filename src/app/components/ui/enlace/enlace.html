@@ -1,0 +1,42 @@
+<!-- TODO: VER ESTO -->
+<!-- <a
+  *ngIf="target === '_blank'; else internalLink"
+  [attr.href]="href || 'javascript:void(0)'"
+  [attr.target]="target"
+  [attr.rel]="rel"
+  [class]="classes"
+>
+  <ng-content></ng-content>
+</a>
+
+<ng-template #internalLink>
+  <a
+    [routerLink]="href"
+    [attr.target]="target"
+    [class]="classes"
+    [attr.rel]="rel"
+  >
+    <ng-content></ng-content>
+  </a>
+</ng-template>
+ -->
+
+<!-- <a
+  [attr.href]="target === '_blank' ? href : null"
+  [routerLink]="target === '_blank' ? null : href"
+  [attr.target]="target"
+  [attr.rel]="rel"
+  [class]="classes"
+>
+  <ng-content></ng-content>
+</a> -->
+
+<a
+  [attr.href]="isExternal ? href : null"
+  [routerLink]="!isExternal ? href : null"
+  [attr.target]="isExternal ? target || '_blank' : null"
+  [attr.rel]="isExternal ? rel || 'noopener noreferrer' : null"
+  [class]="classes"
+>
+  <ng-content></ng-content>
+</a>

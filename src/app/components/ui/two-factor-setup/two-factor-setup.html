@@ -1,0 +1,195 @@
+<div class="overflow-hidden">
+  <!-- bg-white dark:bg-gray-900  -->
+  <!-- bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-red-900/20 dark:to-pink-900/20 flex flex-col items-center justify-center px-4bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 dark:from-gray-900 dark:via-red-900/20 dark:to-pink-900/20 flex flex-col items-center justify-center px-4 -->
+
+  <div
+    class="m-5 md:m-0 md:w-full md:max-w-lg border-2 shadow-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-700/50 rounded-lg overflow-hidden"
+  >
+    <!--  -->
+    <div class="flex flex-col">
+      <!--  <div class="absolute top-1 right-1">
+        <app-button
+          variant="ghost"
+          id="closeModal"
+          size="sm"
+          className="cursor-pointer"
+          (click)="close.emit()"
+          [attr.data-tooltip]="'Cerrar'"
+        >
+          <lucide-icon [img]="X" class="h-4 w-4" />
+        </app-button>
+      </div> -->
+      <div class="text-center p-6 border-b">
+        <h2
+          class="text-2xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-orange-600 bg-clip-text text-transparent"
+        >
+          Configurar Autenticación 2FA
+        </h2>
+        <p class="text-muted-foreground">
+          {{
+            twoFactorSetupStep === 1
+              ? "Paso 1: Escanea el código QR"
+              : "Paso 2: Verifica la configuración"
+          }}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="p-6 bg-gradient-to-br from-white/50 to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50"
+    >
+      <!-- Paso 1 -->
+      <ng-container *ngIf="twoFactorSetupStep === 1">
+        <div class="space-y-6 text-center">
+          <div class="flex justify-center">
+            <div class="p-4 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <lucide-icon
+                [img]="QrCode"
+                class="h-8 w-8 text-blue-600 dark:text-blue-400"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="font-semibold">1. Descarga una app de autenticación</h3>
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              Google Authenticator, Authy, Microsoft Authenticator, etc.
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="font-semibold">2. Escanea este código QR</h3>
+            <div class="flex justify-center">
+              <div class="p-4 bg-white rounded-lg">
+                <!-- bg-white border-2 border-dashed border-gray-300 -->
+                <img
+                  [src]="qrImage"
+                  alt="Código QR para configurar 2FA"
+                  class="w-48 h-48"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="font-semibold">3. O ingresa esta clave manualmente</h3>
+            <div
+              class="flex items-center gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg"
+            >
+              <code
+                class="flex-1 text-xs font-mono w-[175px] wrap-break-word md:wrap-normal"
+                >{{ secretKey }}</code
+              >
+              <app-button
+                size="sm"
+                variant="outline"
+                className="cursor-pointer"
+              >
+                <lucide-icon [img]="Copy" class="w-4 h-4" />
+              </app-button>
+            </div>
+          </div>
+
+          <app-button
+            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white cursor-pointer"
+            type="button"
+            (click)="setTwoFactorSetupStep(2)"
+          >
+            <lucide-icon [img]="Smartphone" class="w-4 h-4 mr-2" />
+            Continuar
+          </app-button>
+        </div>
+      </ng-container>
+
+      <!-- Paso 2 -->
+      <ng-container *ngIf="twoFactorSetupStep === 2">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+          <div class="text-center space-y-4">
+            <div class="flex justify-center">
+              <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-full">
+                <lucide-icon
+                  [img]="Shield"
+                  class="h-6 w-6 text-green-600 dark:text-green-400"
+                />
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="font-semibold">Ingresa el código de tu app</h3>
+              <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                Abre tu aplicación de autenticación e ingresa el código de 6
+                dígitos
+              </p>
+            </div>
+
+            <div class="flex justify-center gap-2 flex-col">
+              <div
+                formArrayName="tokenDigits"
+                class="flex justify-center gap-2"
+              >
+                <ng-container
+                  *ngFor="let ctrl of tokenDigits.controls; let i = index"
+                >
+                  <input
+                    [formControlName]="i"
+                    id="tokenDigits-{{ i }}"
+                    #inputEl
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]{1}"
+                    [placeholder]="i + 1"
+                    maxlength="1"
+                    required
+                    [disabled]="isDisabled(i)"
+                    [class.opacity-50]="isDisabled(i)"
+                    (input)="onInput(i, $event)"
+                    (keydown)="onKeyDown(i, $event)"
+                    (paste)="i === 0 ? onPaste($event) : null"
+                    class="w-10 h-12 text-center text-lg font-bold flex rounded-md border px-3 py-2 text-[hsl(var(--base))] md:text-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-0 border-[hsl(var(--input))] bg-[hsl(var(--background))] placeholder:text-[hsl(var(--muted-foreground))] ring-offset-[hsl(var(--background))] file:border-0 file:bg-[hsl(var(--transparent))] file:text-sm file:font-medium file:text-[hsl(var(--foreground))] disabled:cursor-not-allowed disabled:opacity-50"
+                    [class.border-red-500]="
+                      tokenDigits.invalid && tokenDigits.touched
+                    "
+                    [attr.aria-label]="
+                      'Dígito ' + (i + 1) + ' del código de verificación'
+                    "
+                  />
+                </ng-container>
+              </div>
+              <p
+                *ngIf="tokenDigits.invalid && tokenDigits.touched"
+                class="text-red-500 text-xs mt-1 text-center"
+              >
+                El token es obligatorio
+              </p>
+            </div>
+
+            <p *ngIf="twoFactorError" class="text-red-500 text-xs">
+              {{ twoFactorErrorMessage }}
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <app-button
+              type="submit"
+              [disabled]="isLoading || form.invalid"
+              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white cursor-pointer"
+            >
+              {{ isLoading ? "Verificando..." : "Completar Configuración" }}
+            </app-button>
+
+            @if(!qrConfig){
+            <app-button
+              type="button"
+              variant="ghost"
+              className="w-full text-sm mt-3 cursor-pointer [disabled]:cursor-not-allowed [disabled]:opacity-50 [disabled]:pointer-events-none"
+              (click)="setTwoFactorSetupStep(1)"
+            >
+              Volver al paso anterior
+            </app-button>
+            }
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  </div>
+</div>
