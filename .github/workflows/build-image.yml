@@ -63,7 +63,7 @@ jobs:
   # Build para arm64
   build_arm64:
     name: Build Docker Image arm64
-    runs-on: self-hosted
+    runs-on: self-hosted-proximamente
     needs: [build_amd64, set_image_tag]
 
     env:
@@ -100,7 +100,7 @@ jobs:
   # Build para arm64
   build_arm64v8:
     name: Build Docker Image arm64v8
-    runs-on: self-hosted
+    runs-on: self-hosted-proximamente
     needs: [build_arm64, set_image_tag]
 
     env:
