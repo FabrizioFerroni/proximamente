@@ -9,7 +9,7 @@ RUN npm clean-install
 
 COPY . .
 
-RUN npm run build
+RUN npm run build --configuration production
 
 # Use official nginx image as the base image
 FROM nginx:stable-alpine-perl

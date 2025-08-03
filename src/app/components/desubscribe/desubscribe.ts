@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Header } from '../header/header';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Notifications } from '../../services/notifications';
 import { ThemeService } from '../../services/theme';

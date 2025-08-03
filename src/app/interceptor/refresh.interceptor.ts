@@ -6,7 +6,6 @@ import { LoginService } from '../services/login';
 import { TokenInfo } from '../lib/interfaces/token-info';
 import { RefreshToken } from '../lib/interfaces/refresh-token';
 import { Storage } from '../lib/utils/storage';
-import { Login } from '../components/login/login';
 import { LoginResponse } from '../dtos/login';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 export const refreshInterceptor: HttpInterceptorFn = (req, next) => {

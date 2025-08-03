@@ -37,7 +37,6 @@ import { SessionsService } from '../../services/sessions';
 import { SessionsResponse } from '../../dtos/sessions';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { TokenService } from '../../services/token';
-import { Rutas } from '../../lib/utils/rutas';
 import { TwoFactorSetup } from '../ui/two-factor-setup/two-factor-setup';
 import { UserService } from '../../services/user-service';
 import { UserInfoUpdateDto, UserUpdatePasswordDto } from '../../dtos/user';

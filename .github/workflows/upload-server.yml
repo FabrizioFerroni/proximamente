@@ -1,0 +1,55 @@
+name: Deploy en servidor local
+
+on:
+  push:
+    branches:
+      - pre
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Verificar y crear carpeta del proyecto
+        run: |
+          BASE_DIR="${{ secrets.PROJECT_PATH }}"
+
+          if [ ! -d "$BASE_DIR" ]; then
+            echo "📁 No existe $BASE_DIR. Creándolo..."
+            mkdir -p "$BASE_DIR"
+          else
+            echo "✔️ Carpeta del proyecto $BASE_DIR ya existe."
+          fi
+
+      - name: Clonar o actualizar el repositorio
+        run: |
+          cd "${{ secrets.PROJECT_PATH }}"
+          if [ -d ".git" ]; then
+            git reset --hard
+            git pull origin "${{ secrets.BRANCH }}"
+          else
+            git clone -b "${{ secrets.BRANCH }}" "${{ secrets.REPO_URL }}" .
+          fi
+
+      - name: Crear archivo de entorno
+        run: |
+          cat <<EOF > "${{ secrets.PROJECT_PATH }}/${{ secrets.ENV_PATH }}"
+          export const environment = {
+            production: ${{ secrets.ENV_PRODUCTION }},
+            name: '${{ secrets.ENV_NAME }}',
+            api: '${{ secrets.ENV_API }}',
+            auth: '${{ secrets.ENV_AUTH }}',
+            release: '${{ secrets.ENV_RELEASE }}',
+            version: '${{ secrets.ENV_VERSION }}',
+            pathCert: '${{ secrets.ENV_PATH_CERT }}',
+            secureCookie: ${{ secrets.ENV_SECURE_COOKIE }},
+            secretKeyRT: '${{ secrets.ENV_SECRET_KEY_RT }}',
+            secret: '${{ secrets.ENV_SECRET }}',
+            urlApp: '${{ secrets.ENV_URL_APP }}',
+          };
+          EOF
+
+      - name: Levantar servicios con Docker Compose
+        run: |
+          cd "${{ secrets.PROJECT_PATH }}/docker"
+          docker compose up -d --build
