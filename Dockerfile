@@ -18,7 +18,11 @@ FROM nginx:stable-alpine-perl
 
 COPY --from=build /app/dist/proximamente-v8-2/browser /usr/share/nginx/html
 
-COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
+# Copia la plantilla y script de arranque
+COPY ./conf/nginx.conf  /etc/nginx/nginx.template.conf
+COPY ./conf/start.sh /start.sh
+
+RUN chmod +x /start.sh
 
 EXPOSE 80
 
