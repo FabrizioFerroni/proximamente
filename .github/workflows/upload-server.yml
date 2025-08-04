@@ -51,5 +51,5 @@ jobs:
 
       - name: Levantar servicios con Docker Compose
         run: |
-          cd "${{ secrets.PROJECT_PATH }}/docker"
+          cd "${{ secrets.PROJECT_PATH }}"
           docker compose up -d --build
