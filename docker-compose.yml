@@ -1,5 +1,6 @@
 services:
   proximamente:
+    image: proximamente:latest
     build:
       context: .
       dockerfile: Dockerfile

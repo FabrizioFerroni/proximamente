@@ -49,6 +49,22 @@ jobs:
           };
           EOF
 
+      - name: Verificar y detener contenedores existentes
+        run: |
+          cd "${{ secrets.PROJECT_PATH }}"
+          if [ ! -f "docker-compose.yml" ]; then
+            echo "❌ No se encontró docker-compose.yml en ${{ secrets.PROJECT_PATH }}"
+            exit 1
+          fi
+
+          echo "🔍 Verificando contenedores en ejecución..."
+
+          if docker compose ps -q | grep -q .; then
+            echo "🛑 Contenedores activos detectados. Deteniéndolos..."
+            docker compose down
+          else
+            echo "✅ No hay contenedores en ejecución."
+          fi
       - name: Levantar servicios con Docker Compose
         run: |
           cd "${{ secrets.PROJECT_PATH }}"
