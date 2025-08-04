@@ -5,11 +5,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
+RUN npm i -g npm@latest
+
 RUN npm clean-install
 
 COPY . .
 
-RUN npm run build --configuration production
+RUN npm run build
 
 # Use official nginx image as the base image
 FROM nginx:stable-alpine-perl
