@@ -2,7 +2,7 @@ name: NPM DNS Check, Create or Update
 
 on:
   workflow_run:
-    workflows: ["Deploy to Portainer"]
+    workflows: ["Deploy en servidor local"]
     types:
       - completed
 
