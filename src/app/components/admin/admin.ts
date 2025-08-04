@@ -23,7 +23,6 @@ import { Loader } from '../ui/loader/loader';
 import { LoginService } from '../../services/login';
 import { TokenService } from '../../services/token';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin',

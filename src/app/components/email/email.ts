@@ -8,10 +8,7 @@ import {
 import { Button } from '../ui/button/button';
 import { CommonModule } from '@angular/common';
 import { Check, Loader2, LucideAngularModule, Send, X } from 'lucide-angular';
-import {
-  CNotificationResponse,
-  CreateNotificationDto,
-} from '../../dtos/notify.dto';
+import { CreateNotificationDto } from '../../dtos/notify.dto';
 import { Notifications } from '../../services/notifications';
 
 @Component({

@@ -1,0 +1,17 @@
+services:
+  proximamente:
+    build:
+      context: ..
+      dockerfile: ../Dockerfile
+    container_name: proximamente
+    hostname: proximamente
+    restart: unless-stopped
+    networks:
+      - proxy
+      - fullstack
+
+networks:
+  proxy:
+    external: true
+  fullstack:
+    external: true

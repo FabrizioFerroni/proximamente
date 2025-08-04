@@ -11,7 +11,6 @@ import { ApiResponse } from '../lib/response/api-response-ok';
 import { Pagination } from '../lib/interfaces/pagination';
 import { HttpHeaders } from '@angular/common/http';
 import { cifrateData } from '../lib/functions/cifrate-data';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
