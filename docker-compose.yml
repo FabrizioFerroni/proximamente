@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     container_name: proximamente
     hostname: proximamente
+    environment:
+      API_URL: ${API_URL}
     restart: unless-stopped
     networks:
       - proxy
