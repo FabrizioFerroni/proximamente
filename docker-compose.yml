@@ -1,8 +1,8 @@
 services:
   proximamente:
     build:
-      context: ..
-      dockerfile: ../Dockerfile
+      context: .
+      dockerfile: Dockerfile
     container_name: proximamente
     hostname: proximamente
     restart: unless-stopped

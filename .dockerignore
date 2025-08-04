@@ -1,0 +1,32 @@
+# Exclude node_modules directory
+node_modules
+
+# Exclude all log files
+*.log
+
+# Exclude environment files
+.env
+.env.local
+
+# Ignore build directories
+/build
+/dist
+
+# Include only the package.json file from the root directory
+!package.json
+
+# Ignore node_modules - it will be reinstalled in the container
+node_modules
+
+# Ignore log files
+*.log
+
+# Ignore the dist directory - the code will be compiled inside the container
+dist
+
+# Ignore sensitive environment variables
+.env
+
+# Ignore Docker-related files
+Dockerfile*
+.dockerignore
