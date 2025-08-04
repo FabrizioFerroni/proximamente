@@ -10,6 +10,7 @@
 /out-tsc
 /bazel-out
 /src/environments/environment.development.ts
+/src/environments/environment.production.ts
 
 # Node
 /node_modules
